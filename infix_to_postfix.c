@@ -62,3 +62,20 @@ int main() {
 
     return 0;
 }
+
+
+// Pointer-based Iteration (*e):
+
+//     Advantages:
+//         Pointer-based traversal is efficient, especially when dealing with strings and characters.
+//         Avoids the need to use an index variable explicitly.
+//         Allows direct manipulation of the pointer to move through characters, making the code concise.
+
+// char exp[] = "3 + 4 * (5 - 2)";
+// char *e = exp; // Initialize pointer
+
+// while (*e != '\0') {
+//     // Process characters using *e
+//     printf("%c ", *e); // Example: Print current character
+//     e++; // Move to the next character
+// }
