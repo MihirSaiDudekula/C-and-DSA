@@ -24,3 +24,5 @@ void main()
   scanf("%d%d",&a,&b);
   lcm_gcd(a,b);
 }
+
+// commits 
