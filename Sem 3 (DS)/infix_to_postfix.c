@@ -2,99 +2,90 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-char stack[100];
+int stack[20];
 int top = -1;
 
-int priority(char x)
+int priority(char e)
 {
- if(x=='(')
- {
-    return 0;
- }
- else if(x=='+'||x=='-') 
- {
-    return 1;
- }
- else if(x=='*'||x=='/')
- {
-    return 2;
- }
- return -1;
+    if (e == '*' || e == '/')
+    {
+        return 2;
+    }
+    else if (e == '+' || e == '-') // Corrected condition
+    {
+        return 1;
+    }
+    else if (e == '(')
+    {
+        return 0;
+    }
+    return -1;
 }
 
-void push(char ele)
+void push(char x)
 {
-    if(top>99)
-    {
-        return;
-    }
-    top++;
-    stack[top]=ele;
+    stack[++top] = x;
 }
 
 char pop()
 {
-    if(top>=0)
-    {
-        char temp = stack[top];
-        top--;
-        return temp; 
-    }
-
+    return stack[top--];
 }
 
-void main()
+int main()
 {
-    char infix[] = "(a+b)*c/d";
-    char postfix[100];
-    char *e;
+    char postfix[20];
+    int index = 0;
     char x;
-    int index=0;
-    e=infix;
-
-    while(*e!='\0')
+    char exp[20];
+    printf("enter the expression");
+    scanf("%s", exp);
+    char *e = exp;
+    while (*e != '\0')
     {
-        if(*e=='(')
+        if (isalnum(*e))
+        {
+            postfix[index++] = *e;
+        }
+        else if (*e == '(')
         {
             push(*e);
         }
-        else if(isalnum(*e))
+        else if (*e == ')')
         {
-            postfix[index++]=*e;
-        }
-        else if(*e == ')')
-        {
-            while(stack[top]!='(')
+            while (stack[top] != '(' && top >= 0)
             {
-                x=pop();
-                postfix[index++]=x;
+                x = pop();
+                postfix[index++] = x;
+            }
+            if (top >= 0 && stack[top] == '(')
+            {
+                pop(); // Pop the '(' from the stack
+            }
+            else
+            {
+                printf("Error: Unbalanced parentheses\n");
+                return 1; // Exit the program due to error
             }
         }
         else
         {
-            //operator
-            while(priority(stack[top])>=priority(*e))
+            while (top >= 0 && priority(*e) <= priority(stack[top]))
             {
-                x=pop();
-                postfix[index++]=x;
+                x = pop();
+                postfix[index++] = x;
             }
             push(*e);
         }
         e++;
     }
-    while(top>=0)
+    while (top >= 0)
     {
-        if(stack[top]=='(' || stack[top]==')')
-        {
-            x=pop();
-        }
-        else
-        {
-            x=pop();
-            postfix[index++]=x;
-        }
+        x = pop();
+        postfix[index++] = x;
     }
-    postfix[index] = '\0';
-    printf("Postfix expression: %s\n", postfix);
-}
+    postfix[index] = '\0'; // Add null terminator to the postfix string
+    printf("\n%s\n", postfix);
 
+    return 0;
+}
