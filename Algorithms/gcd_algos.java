@@ -81,6 +81,7 @@ public class GCD {
             if(fac2.contains(element))
             {
                 cur_hcf = cur_hcf * element;
+                fac2.remove(element);
             }
         }
         return cur_hcf;
