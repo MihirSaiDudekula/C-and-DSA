@@ -1,64 +1,3 @@
-class QuickSort {
-    
-    public static void swap(int[] arr,int pos1,int pos2)
-    {
-        int temp = arr[pos1];
-        arr[pos1] = arr[pos2];
-        arr[pos2] = temp;
-    }
-    
-    public static int partition(int[] arr, int low, int high)
-    {
-    }
-    
-    public static void quickSort(int[] arr, int low, int high)
-    {
-        int pivot = arr[high];
-        int j = high-1;
-        int i = low;
-        while(i<=j)
-        {
-            while(arr[i]<= pivot && i<= high - 1)
-            {
-                i++;
-            }
-            while(arr[j]>=pivot && arr[j]>=low-1)
-            {
-                j++;
-            }
-            swap(arr,i,j);
-        }
-        
-        // if (low < high) {
-        //     int pi = partition(arr, low, high);
-        //     quickSort(arr, low, pi - 1);
-        //     quickSort(arr, pi + 1, high);
-        // }
-    }
-
-    
-    public static void main(String[] args) {
-        int[] arr = {5, 3, 7, 2, 8, 4}; // Example unsorted array
-
-        System.out.println("Original array:");
-        printArray(arr);
-
-        quickSort(arr, 0, arr.length - 1); // Start quicksort with pivot as the last element
-
-        System.out.println("Sorted array:");
-        printArray(arr);
-    }
-
-    public static void printArray(int[] arr) 
-    {
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + " ");
-        }
-        System.out.println();
-    }
-
-}
-
 import java.util.Random;
 
 public class QuickSort {
@@ -69,39 +8,32 @@ public class QuickSort {
         arr[j] = temp;
     }
 
-    // Partition function
-    private static int partition(int[] arr, int low, int high) {
-        // Initialize pivot to be the first element
-        int pivot = arr[low];
-        int i = low+1;
-        int j = high;
-
-        while (i < j) {
-            // Condition 1: find the first element greater than the pivot (from starting)
-            while (arr[i] <= pivot && i <= high - 1) {
-                i++;
-            }
-            // Condition 2: find the first element smaller than the pivot (from last)
-            while (arr[j] > pivot && j >= low + 1) {
-                j--;
-            }
-            if (i < j) {
-                swap(arr, i, j);
-            }
-        }
-        swap(arr, low, j);
-        return j;
-    }
-
-    // QuickSort function
     private static void quickSort(int[] arr, int low, int high) {
-        if (low < high) {
+        if (low < high) 
+        {
             // Call Partition function to find Partition Index
-            int partitionIndex = partition(arr, low, high);
-
+            // int partitionIndex = partition(arr, low, high);
+            int pivot = arr[low];
+            int i = low;
+            int j = high;
+    
+            while (i < j) {
+                // Condition 1: find the first element greater than the pivot (from starting)
+                while (arr[i] <= pivot && i <= high - 1) {
+                    i++;
+                }
+                // Condition 2: find the first element smaller than the pivot (from last)
+                while (arr[j] > pivot && j >= low + 1) {
+                    j--;
+                }
+                if (i < j) {
+                    swap(arr, i, j);
+                }
+            }
+            swap(arr, low, j);
             // Recursively call quickSort() for left and right half based on partition Index
-            quickSort(arr, low, partitionIndex - 1);
-            quickSort(arr, partitionIndex + 1, high);
+            quickSort(arr, low, j - 1);
+            quickSort(arr, j + 1, high);
         }
     }
 
