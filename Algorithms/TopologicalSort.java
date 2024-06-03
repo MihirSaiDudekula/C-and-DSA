@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Stack;
 import java.util.Set;
+import java.util.Stack;
 
 class Node {
     int data;
@@ -37,9 +37,13 @@ class DFS {
         }
     }
 
+    // this function is here to find inflection points -  the nodes in the graph other than the source whose indegree is 0
+    //i.e, they are disconnected from our original graph
     public void topoSortAll(Node[] nodes) {
         for (Node node : nodes) {
-            topoSort(node);
+            if (!visit.contains(node)) { // Skip nodes that have been visited
+                topoSort(node);
+            }
         }
     }
 }
