@@ -71,7 +71,7 @@ class Graph {
       // Extract the edge with the smallest weight from the priority queue
       Edge edge = minHeap.poll();
 
-      // Nodes at the ends of the edge
+      // Nodes at either ends of the edge that we got from the above min poll 
       Node u = edge.from;
       Node v = edge.to;
 
