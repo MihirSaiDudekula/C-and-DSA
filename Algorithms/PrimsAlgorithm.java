@@ -15,7 +15,7 @@ class Node {
   //addEdge function creates a new edge by calling the constructor of edge class which takes from which node , 
   //to which node and weight of the edge, and adds it to the nbs list 
   public void addEdge(Node neighbor, int weight) {
-    nbs.add(new Edge(this, neighbor, weight));
+    this.nbs.add(new Edge(this, neighbor, weight));
   }
 }
 
