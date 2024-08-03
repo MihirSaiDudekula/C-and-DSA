@@ -2,14 +2,14 @@ import java.util.*;
 
 class Node {
   //each node has a value
-  int val;
+  String val;
   //then it has a list of edges, which itself are objects. the name of this list is nbs - neighbours 
-  List < Edge > nbs; // list of edges to neighbors
+  List <Edge> nbs; // list of edges to neighbors
 
   //constructor to construct the node
-  public Node(int val) {
+  public Node(String val) {
     this.val = val;
-    this.nbs = new ArrayList < > ();
+    this.nbs = new ArrayList <> ();
   }
 
   //addEdge function creates a new edge by calling the constructor of edge class which takes from which node , 
@@ -36,10 +36,10 @@ class Edge {
 
 class Graph {
   //graph is simply a list of nodes 
-  List < Node > nodes;
+  List <Node> nodes;
 
   public Graph() {
-    this.nodes = new ArrayList < > ();
+    this.nodes = new ArrayList <> ();
   }
 
   public void addNode(Node n) {
@@ -53,17 +53,19 @@ class Graph {
   }
 
   // Prim's algorithm to find Minimum Spanning Tree (MST)
-  public List < Edge > primMST(Node start) {
+  public List <Edge> primMST(Node start) {
     // Set to keep track of visited nodes
-    Set < Node > visited = new HashSet < > ();
+    Set <Node> visited = new HashSet <> ();
 
     // List to store edges of the Minimum Spanning Tree (MST)
-    List < Edge > mst = new ArrayList < > ();
+    List <Edge> mst = new ArrayList <> ();
 
     // Priority queue to store edges sorted by weight
-    PriorityQueue < Edge > minHeap = new PriorityQueue < > (Comparator.comparingInt(e -> e.weight));
+    PriorityQueue <Edge> minHeap = new PriorityQueue <> (Comparator.comparingInt(e -> e.weight));
 
     // Start the Prim's algorithm by visiting the start node
+
+    //visit function, basically just adds current node to visited and all it neighbouring edges , which are pointing to unvisited nodes, into the priorityqueue
     visit(start, visited, minHeap);
 
     // Continue until all nodes are visited or priority queue is empty
@@ -75,7 +77,7 @@ class Graph {
       Node u = edge.from;
       Node v = edge.to;
 
-      // If both nodes are already visited, skip this edge
+      // If both nodes are already visited, which indicates the formation of a cycle, skip this edge
       if (visited.contains(u) && visited.contains(v)) {
         continue;
       }
@@ -95,7 +97,7 @@ class Graph {
   }
 
   // Helper method to visit a node and add its edges to the priority queue
-  private void visit(Node node, Set < Node > visited, PriorityQueue < Edge > minHeap) {
+  private void visit(Node node, Set <Node> visited, PriorityQueue <Edge> minHeap) {
     // Mark the node as visited
     visited.add(node);
 
@@ -113,28 +115,37 @@ class Graph {
 public class Main {
   public static void main(String[] args) {
     // Create nodes
-    Node node0 = new Node(0);
-    Node node1 = new Node(1);
-    Node node2 = new Node(2);
-    Node node3 = new Node(3);
-    Node node4 = new Node(4);
+    Node nodeA = new Node("A");
+    Node nodeB = new Node("B");
+    Node nodeC = new Node("C");
+    Node nodeD = new Node("D");
+    Node nodeE = new Node("E");
+    Node nodeF = new Node("F");
+
 
     // Create graph
     Graph graph = new Graph();
-    graph.addNode(node0);
-    graph.addNode(node1);
-    graph.addNode(node2);
-    graph.addNode(node3);
-    graph.addNode(node4);
+    graph.addNode(nodeA);
+    graph.addNode(nodeB);
+    graph.addNode(nodeC);
+    graph.addNode(nodeD);
+    graph.addNode(nodeE);
+    graph.addNode(nodeF);
+
 
     // Create weighted edges
-    graph.addEdge(node0, node1, 2);
-    graph.addEdge(node0, node2, 3);
-    graph.addEdge(node1, node3, 4);
-    graph.addEdge(node2, node4, 1);
+    graph.addEdge(nodeF, nodeE, 8);
+    graph.addEdge(nodeD, nodeE, 3);
+    graph.addEdge(nodeF, nodeD, 7);
+    graph.addEdge(nodeD, nodeA, 6);
+    graph.addEdge(nodeE, nodeA, 4);
+    graph.addEdge(nodeE, nodeC, 3);
+    graph.addEdge(nodeA, nodeC, 2);
+    graph.addEdge(nodeC, nodeB, 2);
+    graph.addEdge(nodeA, nodeB, 5);
 
     // Perform Prim's algorithm to find MST
-    List < Edge > mst = graph.primMST(node0);
+    List <Edge> mst = graph.primMST(nodeF);
 
     // Print MST edges
     System.out.println("Minimum Spanning Tree (MST) using Prim's Algorithm:");
@@ -143,3 +154,5 @@ public class Main {
     }
   }
 }
+
+

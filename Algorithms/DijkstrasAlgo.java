@@ -4,11 +4,13 @@ import java.util.*;
 class Node {
     int val; // Node value
     List<Edge> nbs; // List of edges (neighbors)
+    int dist;
 
     // Constructor to initialize a node with a value
     public Node(int val) {
         this.val = val;
         this.nbs = new ArrayList<>();
+        this.dist = Integer.MAX_VALUE;
     }
 
     // Method to add a neighbor (edge) to the node with a specified weight
@@ -53,64 +55,51 @@ class Graph {
     }
 
     // Dijkstra's algorithm to find shortest path from start node to all nodes
-    public Map<Node, Integer> dijkstra(Node start) {
+    public List<Node> dijkstra(Node start) {
         // Map to store shortest distances from start node to each node
-        Map<Node, Integer> distances = new HashMap<>();
+        // Map<Node, Integer> distances = new HashMap<>();
         
         // Priority queue to fetch nodes with the smallest known distance
-        PriorityQueue<NodeDistancePair> minHeap = new PriorityQueue<>(Comparator.comparingInt(p -> p.distance));
+        PriorityQueue<Node> minHeap = new PriorityQueue<>(Comparator.comparingInt(n -> n.dist));
     
         // Initialize distances to all nodes as infinity (Integer.MAX_VALUE)
-        for (Node node : nodes) {
-            distances.put(node, Integer.MAX_VALUE);
-        }
+        // for (Node node : nodes) {
+        //     distances.put(node, Integer.MAX_VALUE);
+        // }
     
         // Distance from start node to itself is 0
-        distances.put(start, 0);
+        start.dist=0;
         
         // Add start node to the priority queue with distance 0
-        minHeap.offer(new NodeDistancePair(start, 0));
+        minHeap.offer(start);
     
         // Process nodes in the priority queue until it is empty
         while (!minHeap.isEmpty()) {
             // Extract the node with the smallest distance from the priority queue
-            NodeDistancePair nd = minHeap.poll();
-            Node u = nd.node;
-            int dist = nd.distance;
+            Node n = minHeap.poll();
+            // int dist = nd.distance;
     
             // If the extracted distance is greater than the stored distance, skip processing
-            if (distances.get(u) < dist) {
+            if (n.dist < n.dist) {
                 continue;
             }
     
             // Iterate through all neighboring edges of the current node
-            for (Edge edge : u.nbs) {
+            for (Edge edge : n.nbs) {
                 Node v = edge.to;
                 int weight = edge.weight;
-                int newDist = dist + weight;
+                int newDist = n.dist + weight;
     
                 // If a shorter path to node v is found, update its distance and add to the priority queue
-                if (newDist < distances.get(v)) {
-                    distances.put(v, newDist);
-                    minHeap.offer(new NodeDistancePair(v, newDist));
+                if (newDist < v.dist) {
+                    v.dist = newDist;
+                    minHeap.offer(v);
                 }
             }
         }
     
         // Return the map of shortest distances from the start node
-        return distances;
-    }
-    
-    // Helper class to pair a node with its distance
-    private static class NodeDistancePair {
-        Node node;
-        int distance;
-    
-        // Constructor to initialize a NodeDistancePair with node and distance
-        public NodeDistancePair(Node node, int distance) {
-            this.node = node;
-            this.distance = distance;
-        }
+        return nodes;
     }
 }
 
@@ -139,17 +128,13 @@ public class Main {
         graph.addEdge(node2, node4, 1);
 
         // Perform Dijkstra's algorithm from node0
-        Map<Node, Integer> shortestDistances = graph.dijkstra(node0);
+        List<Node> shortestDistances = graph.dijkstra(node0);
 
         // Print shortest distances
         System.out.println("Shortest distances from node " + node0.val + ":");
-        for (Node node : shortestDistances.keySet()) {
-            System.out.println("To node " + node.val + ": " + shortestDistances.get(node));
+        for (Node node : shortestDistances) {
+            System.out.println("To node " + node.val + ": " + node.dist);
         }
-
-        // Example: Find shortest path length from node0 to node3
-        Node endNode = node3;
-        int shortestPathLength = shortestDistances.get(endNode);
-        System.out.println("Shortest path length from node " + node0.val + " to node " + endNode.val + ": " + shortestPathLength);
     }
 }
+

@@ -11,19 +11,33 @@ public class MergeSort {
     }
     
     public static void mergeSort(int[] array, int left, int right) {
-        if (left < right) {
-            int mid = (left + right) / 2;
             
-            mergeSort(array, left, mid);
-            mergeSort(array, mid + 1, right);
-            
-            merge(array, left, mid, right);
+            if(left==right)
+            {
+                //base case
+                return;
+            }
+            else{
+                int mid = (left + right) / 2;
+                
+                mergeSort(array, left, mid);
+                mergeSort(array, mid + 1, right);
+                
+                //by the time we reach this line, only have singular nodes that have to be recursively merged together.
+                //so just before popping off the call stack, sort correctly and merge
+                merge(array, left, mid, right);
+            }
         }
-    }
     
     public static void merge(int[] array, int left, int mid, int right) {
+        
+        //this code is the same as merging 2 sorted arrays
+
         int n1 = mid - left + 1;
+        //size of left subarray 
+
         int n2 = right - mid;
+        // size fo right subarray
         
         int[] leftArray = new int[n1];
         int[] rightArray = new int[n2];
