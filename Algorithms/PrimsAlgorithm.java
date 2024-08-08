@@ -1,5 +1,20 @@
 import java.util.*;
 
+// the idea
+// visit start first and add all its neigbouring edges. this step is done only once, in the beginning
+
+//now comes the main part
+// we need to repeatedly look into the priority queue, obtain the minimum length edge using pop
+// we know the edge and its weight, but we dont know anything about the vertices.
+// so check whether this edge will form a loop - check if both its extrema vertices are already visited, 
+// if yes, we cannot include it in our solution
+// if not, add it to the MST(that was the only thing we needed to worry about!!)
+
+// now, obviously, we just checked that both the nodes were unvisited, i.e. either node1 is visited or node2 is visited 
+// both cannot be visited. so now simply visit the one we havent visited!!
+
+// doing this, we can cover the entire graph.
+
 class Node {
   //each node has a value
   String val;
