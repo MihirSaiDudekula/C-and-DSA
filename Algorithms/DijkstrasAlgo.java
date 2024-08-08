@@ -1,5 +1,19 @@
 import java.util.*;
 
+// idea
+// basically, we want the minimum distance between source and every vertex in the graph
+// we give a dist parameter to each node, which we update at every relaxation
+// first we set dist from src to src as 0 and everything else as INF
+// then, for each neighbour of src, relax the distance
+
+// unlike prims, here our minheap stores the node and not the edge
+// in general, the idea is, every time we do a relaxation step, we add that node to minheap
+// this is for 2 reasons
+// 1. we are greedy: we want the shortest path, and at every relaxation the path which is shortest is picked to traverse
+// 2. path shrinks: once the relaxation occurs, if a path to already visited node relaxes, then overall path length also decreases
+// this is the reason why the same node may enter the minheap multiple times and we are not concerned about visited state
+
+
 // Node class represents a node in the graph
 class Node {
     int val; // Node value
