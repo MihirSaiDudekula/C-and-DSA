@@ -32,30 +32,6 @@ class Graph
 	}
 }
 
-class DFS
-{
-	public static void dfs(Node start)
-	{
-		Set<Node> visited = new HashSet<>();
-		dfsRecursive(start,visited);
-	}
-	
-	private static void dfsRecursive(Node n,Set<Node> visited)
-	{
-		visited.add(n);
-		System.out.println("Visited node: " + n.val);
-		
-		for(Node x:n.nbs)
-		{
-			if(!visited.contains(x))
-			{
-				dfsRecursive(x,visited);
-			}
-		}
-	}
-}
-
-
 class BFS {
     public static void bfs(Node start) {
         Set<Node> visited = new HashSet<>();
@@ -102,9 +78,6 @@ public class Main {
         graph.addNode(node3);
         graph.addNode(node4);
 
-        // Perform DFS
-        System.out.println("DFS Traversal:");
-        DFS.dfs(node0);
         System.out.println("BFS Traversal:");
         BFS.bfs(node0);
     }

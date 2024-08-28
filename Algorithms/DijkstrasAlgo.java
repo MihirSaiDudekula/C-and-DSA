@@ -13,12 +13,11 @@ import java.util.*;
 // 2. path shrinks: once the relaxation occurs, if a path to already visited node relaxes, then overall path length also decreases
 // this is the reason why the same node may enter the minheap multiple times and we are not concerned about visited state
 
-
 // Node class represents a node in the graph
 class Node {
     int val; // Node value
     List<Edge> nbs; // List of edges (neighbors)
-    int dist;
+    int dist; // Distance from the source node
 
     // Constructor to initialize a node with a value
     public Node(int val) {
@@ -69,41 +68,30 @@ class Graph {
     }
 
     // Dijkstra's algorithm to find shortest path from start node to all nodes
-    public List<Node> dijkstra(Node start) {
-        // Map to store shortest distances from start node to each node
-        // Map<Node, Integer> distances = new HashMap<>();
-        
+    public void dijkstra(Node start) {
         // Priority queue to fetch nodes with the smallest known distance
         PriorityQueue<Node> minHeap = new PriorityQueue<>(Comparator.comparingInt(n -> n.dist));
-    
-        // Initialize distances to all nodes as infinity (Integer.MAX_VALUE)
-        // for (Node node : nodes) {
-        //     distances.put(node, Integer.MAX_VALUE);
-        // }
-    
-        // Distance from start node to itself is 0
-        start.dist=0;
         
-        // Add start node to the priority queue with distance 0
+        // Initialize distances of all nodes as infinity
+        for (Node node : nodes) {
+            node.dist = Integer.MAX_VALUE;
+        }
+        
+        // Distance from start node to itself is 0
+        start.dist = 0;
         minHeap.offer(start);
-    
+        
         // Process nodes in the priority queue until it is empty
         while (!minHeap.isEmpty()) {
             // Extract the node with the smallest distance from the priority queue
-            Node n = minHeap.poll();
-            // int dist = nd.distance;
-    
-            // If the extracted distance is greater than the stored distance, skip processing
-            if (n.dist < n.dist) {
-                continue;
-            }
-    
+            Node u = minHeap.poll();
+            
             // Iterate through all neighboring edges of the current node
-            for (Edge edge : n.nbs) {
+            for (Edge edge : u.nbs) {
                 Node v = edge.to;
                 int weight = edge.weight;
-                int newDist = n.dist + weight;
-    
+                int newDist = u.dist + weight;
+                
                 // If a shorter path to node v is found, update its distance and add to the priority queue
                 if (newDist < v.dist) {
                     v.dist = newDist;
@@ -111,9 +99,6 @@ class Graph {
                 }
             }
         }
-    
-        // Return the map of shortest distances from the start node
-        return nodes;
     }
 }
 
@@ -142,13 +127,12 @@ public class Main {
         graph.addEdge(node2, node4, 1);
 
         // Perform Dijkstra's algorithm from node0
-        List<Node> shortestDistances = graph.dijkstra(node0);
+        graph.dijkstra(node0);
 
         // Print shortest distances
         System.out.println("Shortest distances from node " + node0.val + ":");
-        for (Node node : shortestDistances) {
+        for (Node node : graph.nodes) {
             System.out.println("To node " + node.val + ": " + node.dist);
         }
     }
 }
-
