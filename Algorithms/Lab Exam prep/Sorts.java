@@ -1,6 +1,6 @@
 class Quick
 {
-	// int[] arr = {7,3,1,2,9,5,8,6,4};
+	int[] arr = {7,3,1,2,9,5,8,6,4};
 
 	public void swap(int[] arr, int i, int j) 
 	{
